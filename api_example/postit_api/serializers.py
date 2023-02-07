@@ -3,6 +3,9 @@ from .models import Post, Comment, PostLike, CommentLike
 
 
 class PostSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    user_id = serializers.ReadOnlyField(source='user.id')
+
     class Meta:
         model = Post
-        fields = ['id', 'user', 'title', 'body', 'created']
+        fields = ['id', 'user', 'user_id', 'title', 'body', 'created']

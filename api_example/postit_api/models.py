@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=150)
-    body = models.CharField(max_length=2000)
+    body = models.TextField(max_length=2000)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -16,7 +16,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(to="Post", on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    body = models.CharField(max_length=2000)
+    body = models.TextField(max_length=2000)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

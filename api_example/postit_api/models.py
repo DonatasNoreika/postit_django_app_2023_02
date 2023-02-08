@@ -22,6 +22,9 @@ class Comment(models.Model):
     class Meta:
         ordering = ["-created"]
 
+    def __str__(self):
+        return f"{self.body} ({self.user})"
+
 
 class PostLike(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)

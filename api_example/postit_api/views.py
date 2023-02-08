@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, mixins, status
+from rest_framework.response import Response
 from .models import Post, Comment, PostLike, CommentLike
 from .serializers import PostSerializer, CommentSerializer, PostLikeSerializer
 from rest_framework.exceptions import ValidationError
@@ -69,7 +70,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class PostLikeCreate(generics.CreateAPIView):
+class PostLikeCreate(generics.CreateAPIView, mixins.DestroyModelMixin):
     serializer_class = PostLikeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -85,3 +86,10 @@ class PostLikeCreate(generics.CreateAPIView):
             post = Post.objects.get(pk=self.kwargs['pk'])
             serializer.save(user=self.request.user, post=post)
 
+
+    def delete(self, request, *args, **kwargs):
+        if self.get_queryset().exists():
+            self.get_queryset().delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise ValidationError('Jūs nepalikote patiktuko po šiuo pranešimu!')

@@ -22,7 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'user', 'user_id', 'title', 'body', 'created', 'comments', 'comment_count', 'likes']
+        fields = ['id', 'user', 'user_id', 'title', 'body', 'created', 'comments', 'comment_count', 'likes', 'image']
 
     def get_comment_count(self, post):
         return Comment.objects.filter(post=post).count()
